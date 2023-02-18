@@ -1,0 +1,16 @@
+# Hyperparamètres partagés par tous les modèles la comparison des modèles
+
+# Entraînement
+n_training_episodes = 50000  # Nombre d'épisdoes d'entrainement
+max_steps = 1000             # Nombre maximla d'itérations pour un épisode
+learning_rate = 0.7         # Taux d'apprentissage (poids accordé au passé pour la mise à jour de la table de Q)
+gamma = 0.99
+
+# Exploration 
+max_epsilon = 0.8       
+min_epsilon = 0.1            
+decay_rate = 0.001          # Décroissance exponentielle pour le epsillon considéré par Q de taux decay_rate
+
+# Pour l'affichages des résultats 
+res = pd.DataFrame()
+smooth = 100 # Lissage des courbes
