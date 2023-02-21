@@ -1,9 +1,8 @@
-import sys
 import numpy as np
 import tqdm
 
 
-# Algorithme de MC à taux d'apprentissage constant
+# Algorithme de Monte Carlo Incrémental
 def every_visit_mc(n_training_episodes, max_steps, min_epsilon, max_epsilon, decay_rate, gamma, learning_rate, env, Qtable):
 
     all_traj_rewards = []

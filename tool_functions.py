@@ -44,3 +44,34 @@ def evaluate_agent(env, max_steps, n_eval_episodes, Q):
         std_reward = np.std(episode_rewards)
 
     return mean_reward, std_reward
+
+
+# Algorithme pour évaluer le réseau de neurones d'un algo drl sur
+# un environnement donné
+def evaluate_drl_agent(env, max_steps, n_eval_episodes, model):
+
+    episode_rewards = []
+
+    for episode in tqdm.tqdm(range(n_eval_episodes)):
+
+        state = env.reset()
+        done = False
+        total_rewards_ep = 0
+
+        for _ in range(max_steps):
+
+            # Plus de epsilon
+            action, log_prob = model.predict(state)
+
+            new_state, reward, done, _ = env.step(action)
+            total_rewards_ep += reward
+
+            if done:
+                break
+            state = new_state
+
+        episode_rewards.append(total_rewards_ep)
+        mean_reward = np.mean(episode_rewards)
+        std_reward = np.std(episode_rewards)
+
+    return mean_reward, std_reward

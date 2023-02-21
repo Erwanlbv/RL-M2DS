@@ -11,6 +11,7 @@ from torch.distributions import Categorical
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
+# Algorithme "Reinforce Monte Carlo"
 class Policy(nn.Module):
     def __init__(self, game_name, s_size, a_size, h_size):
         super(Policy, self).__init__()
@@ -26,7 +27,7 @@ class Policy(nn.Module):
         out = torch.softmax(x, dim=1)
         return out
 
-    def act(self, state):
+    def predict(self, state):
         state = torch.from_numpy(state).float().unsqueeze(0).to(device)
         probs = self.forward(state).cpu()
         m = Categorical(probs)
@@ -51,7 +52,7 @@ def reinforce(policy, optimizer, n_training_episodes, max_steps, gamma, env, che
 
         # On se déplace dans l'environnement en suivant notre politique (une trajectoire)
         for t in range(max_steps):
-            action, log_prob = policy.act(state)
+            action, log_prob = policy.predict(state)
             saved_log_probs.append(log_prob)
             state, reward, done, _ = env.step(action)
             rewards.append(reward)
@@ -87,7 +88,7 @@ def reinforce(policy, optimizer, n_training_episodes, max_steps, gamma, env, che
         optimizer.step()
 
         if episode % check_every == 0:
-            # Calcul des performances du modèle      
+            # Calcul des performances du modèle
             epi_mean_score, epi_std_score = np.mean(scores_deque), np.std(scores_deque)
             avg_scores.append(epi_mean_score)
             std_scores.append(epi_std_score)
@@ -99,7 +100,7 @@ def reinforce(policy, optimizer, n_training_episodes, max_steps, gamma, env, che
                 print('Métrique :', (epi_mean_score - epi_std_score).round(2))
 
                 model_name = 'reinforce_MC_' + policy.game_name + '_' + str(metric_scores[-1].round(2))
-                save_path = os.path.join('/Users/erwan/Programmes/M2DS RL/Basic Algs/best_models/', model_name)                
+                save_path = os.path.join("/Users/erwan/Programmes/M2DS RL/RL M2DS/best_models" , model_name)     
                 print('\t Nouveau meilleur score! Sauvegarde des poids du modèle à ' + save_path)
                 torch.save(policy.state_dict(), save_path)
 
