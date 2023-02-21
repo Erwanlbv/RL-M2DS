@@ -1,6 +1,6 @@
 # RL-M2DS
 
-Le fichier "Algo_Fonda" contient des algorithmes présentés dans le rapport (notamment l'algorithme de Monte Carlo incrémental). 
+Le fichier "Algo_Fonda" contient des algorithmes présentés dans le rapport (notamment l'algorithme de Monte Carlo Incrémental). 
 Celui "Deep_RL" contient l'algorithme Reinforce, codé à la main.
 
 Les notebooks Frozen_Lake sont des applications comparatives des algorithmes IMC, Sarsa et Qlearning. 
